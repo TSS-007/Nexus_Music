@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AccountInfo from "./AccountInfo";
 
 const navigation = [
   { icon: "◫", label: "Overview", href: "/dashboard" },
@@ -82,6 +83,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="lg:ml-64">
+        <AccountInfo />
 
         {/* Header */}
         <header className="flex items-center justify-between border-b border-white/10 px-6 py-6 lg:px-10">

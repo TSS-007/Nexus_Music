@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const features = [
   {
     icon: "♫",
@@ -23,6 +25,21 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#080810] text-white">
       {/* Navigation */}
+      <div className="flex items-center gap-4">
+  <Link
+    href="/login"
+    className="text-sm font-medium text-gray-300 transition hover:text-white"
+  >
+    Log In
+  </Link>
+
+  <Link
+    href="/signup"
+    className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-500"
+  >
+    Sign Up
+  </Link>
+</div>
       <nav className="flex items-center justify-between border-b border-white/10 px-8 py-6">
         <div className="text-2xl font-black tracking-widest">
           NEXUS<span className="text-violet-500">.</span>
