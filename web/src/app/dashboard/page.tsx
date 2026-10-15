@@ -4,7 +4,9 @@ import CreatorProfile from "./CreatorProfile";
 
 const navigation = [
   { icon: "◫", label: "Overview", href: "/dashboard" },
-  { icon: "♫", label: "Discover Music", href: "/discover" },
+  { icon: "♫", label: "Discover Music", href: "/music" },
+  { icon: "◉", label: "Find Creators", href: "/discover" },
+  { icon: "↑", label: "Upload Music", href: "/upload" },
 
 
 
@@ -93,10 +95,10 @@ export default function Dashboard() {
 
           {/* Real activity replaces the former demonstration numbers. */}
           <section className="mb-10 grid gap-4 sm:grid-cols-2">
-            <Link href="/discover" className="group rounded-2xl border border-white/10 bg-[#11111d] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-lg hover:shadow-violet-900/20">
+            <Link href="/music" className="group rounded-2xl border border-white/10 bg-[#11111d] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-lg hover:shadow-violet-900/20">
               <p className="text-sm text-gray-400">Community</p>
-              <h3 className="mt-3 text-xl font-bold">Discover creators ↗</h3>
-              <p className="mt-2 text-sm text-gray-400">Search and filter real artists, producers and curators.</p>
+              <h3 className="mt-3 text-xl font-bold">Explore music ↗</h3>
+              <p className="mt-2 text-sm text-gray-400">Listen to real songs and beats from Nexus creators.</p>
             </Link>
             <Link href="/profile" className="group rounded-2xl border border-white/10 bg-[#11111d] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-lg hover:shadow-violet-900/20">
               <p className="text-sm text-gray-400">Your identity</p>
