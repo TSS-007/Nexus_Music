@@ -38,6 +38,7 @@ export default function Home() {
           </a>
 
           <Link href="/discover" className="hidden text-sm text-gray-300 transition hover:text-white sm:block">Creators</Link>
+          <Link href="/music" className="hidden text-sm text-gray-300 transition hover:text-white sm:block">Music</Link>
           <Link href="/login" className="text-sm text-gray-300 transition hover:text-white">Log In</Link>
           <Link href="/signup" className="rounded-lg bg-violet-600 px-5 py-2 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-violet-500">Join Nexus</Link>
         </div>
@@ -65,10 +66,10 @@ export default function Home() {
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <a
-            href="/discover"
+            href="/music"
             className="rounded-xl bg-violet-600 px-8 py-4 font-semibold transition hover:-translate-y-1 hover:bg-violet-500"
           >
-            Discover Creators →
+            Explore Music →
           </a>
 
           <a
