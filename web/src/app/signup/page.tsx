@@ -1,5 +1,6 @@
 "use client";
 
+import NexusHover from "@/app/components/NexusHover";
 import { useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -37,9 +38,9 @@ export default function SignupPage() {
   return (
     <main className="nexus-glow flex min-h-screen items-center justify-center bg-[#070711] px-6 py-12 text-white">
       <div className="nexus-panel nexus-reveal w-full max-w-md rounded-3xl p-8 sm:p-10">
-        <Link href="/" className="text-3xl font-black tracking-widest">
+        <NexusHover><Link href="/" className="text-3xl font-black tracking-widest">
           NEXUS<span className="text-violet-500">.</span>
-        </Link>
+        </Link></NexusHover>
 
         <h1 className="mt-10 text-3xl font-bold">
           Join the network.
@@ -102,9 +103,9 @@ export default function SignupPage() {
 
         <p className="mt-8 text-center text-sm text-gray-400">
           Already have an account?{" "}
-          <Link href="/login" className="text-violet-400 hover:underline">
+          <NexusHover><Link href="/login" className="text-violet-400 hover:underline">
             Sign in
-          </Link>
+          </Link></NexusHover>
         </p>
       </div>
     </main>
