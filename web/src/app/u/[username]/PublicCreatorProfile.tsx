@@ -1,5 +1,6 @@
 "use client";
 
+import NexusHover from "@/app/components/NexusHover";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -37,8 +38,8 @@ export default function PublicCreatorProfile({ username }: { username: string })
   });
   return <main className="min-h-screen bg-[#080810] px-5 py-10 text-white">
     <div className="mx-auto max-w-3xl">
-      <nav className="flex items-center justify-between"><Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link><Link href="/discover" className="text-sm text-violet-300 transition hover:text-white">← Discover creators</Link></nav>
-      {loading ? <p className="mt-16 text-gray-400">Loading creator profile...</p> : error ? <p role="alert" className="mt-16 text-red-400">{error}</p> : !creator ? <div className="mt-16 rounded-2xl border border-white/10 p-10"><h1 className="text-2xl font-bold">Creator not found</h1><p className="mt-3 text-gray-400">This username doesn't have a public profile.</p><Link href="/discover" className="mt-6 inline-block text-violet-300">Browse creators →</Link></div> :
+      <nav className="flex items-center justify-between"><NexusHover><Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link></NexusHover><NexusHover><Link href="/discover" className="text-sm text-violet-300 transition hover:text-white">← Discover creators</Link></NexusHover></nav>
+      {loading ? <p className="mt-16 text-gray-400">Loading creator profile...</p> : error ? <p role="alert" className="mt-16 text-red-400">{error}</p> : !creator ? <div className="mt-16 rounded-2xl border border-white/10 p-10"><h1 className="text-2xl font-bold">Creator not found</h1><p className="mt-3 text-gray-400">This username doesn't have a public profile.</p><NexusHover><Link href="/discover" className="mt-6 inline-block text-violet-300">Browse creators →</Link></NexusHover></div> :
       <article className="nexus-panel mt-14 overflow-hidden rounded-3xl">
         <div className="h-32 bg-gradient-to-r from-violet-950 via-[#3c1a65] to-[#101024]" />
         <div className="px-7 pb-10 sm:px-10">
@@ -56,7 +57,7 @@ export default function PublicCreatorProfile({ username }: { username: string })
           <h2 className="mt-9 text-lg font-semibold">Music & links</h2>
           {links.length ? <div className="mt-4 flex flex-wrap gap-3">{links.map(([name, url]) => <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-violet-500/30 bg-violet-500/10 px-5 py-3 text-sm font-medium capitalize text-violet-200 transition hover:-translate-y-0.5 hover:border-violet-400 hover:bg-violet-600/25">{name} ↗</a>)}</div> : <p className="mt-3 text-gray-400">No links added yet.</p>}
           {viewer&&viewer!==creator.id&&<section className="mt-9 border-t border-white/10 pt-8"><h2 className="text-lg font-semibold">Connect with {creator.display_name}</h2><p className="mt-2 text-sm text-gray-400">Send a private collaboration request to this creator.</p><textarea aria-label="Collaboration message" minLength={10} maxLength={1000} rows={4} value={requestMessage} onChange={e=>setRequestMessage(e.target.value)} placeholder="Tell them what you'd like to create together..." className="mt-4 w-full rounded-xl border border-white/20 bg-[#171429] p-4 outline-none focus:border-violet-400"/><button disabled={sending||requestMessage.trim().length<10} onClick={sendRequest} className="nexus-cta mt-3 rounded-xl px-6 py-3 font-semibold disabled:opacity-40">{sending?"Sending…":"Send collaboration request"}</button>{requestStatus&&<p role="status" className="mt-3 text-sm text-violet-300">{requestStatus}</p>}</section>}
-          {!viewer&&<p className="mt-8 text-sm text-gray-400"><Link href="/login" className="text-violet-300 underline">Sign in</Link> to connect with this creator.</p>}
+          {!viewer&&<p className="mt-8 text-sm text-gray-400"><NexusHover><Link href="/login" className="text-violet-300 underline">Sign in</Link></NexusHover> to connect with this creator.</p>}
         </div>
       </article>}
     </div>
