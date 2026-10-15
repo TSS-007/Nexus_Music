@@ -1,7 +1,5 @@
 import PublicCreatorProfile from "./PublicCreatorProfile";
 
-export const dynamic = "force-dynamic";
-
 export default async function CreatorProfilePage({
   params,
 }: {
