@@ -13,10 +13,10 @@ export default function Home() {
         <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8" aria-label="Main navigation">
           <Link href="/" className="text-2xl font-black tracking-[.17em]">NEXUS<span className="text-violet-400">.</span></Link>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm sm:gap-x-7">
-            <Link href="/music" className="text-gray-300 transition hover:text-violet-300">Music</Link>
-            <Link href="/discover" className="text-gray-300 transition hover:text-violet-300">Creators</Link>
-            <Link href="/dashboard" className="hidden text-gray-300 transition hover:text-violet-300 sm:inline">Dashboard</Link>
-            <Link href="/login" className="text-gray-300 transition hover:text-white">Log in</Link>
+            <Link href="/music" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Music</Link>
+            <Link href="/discover" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Creators</Link>
+            <Link href="/dashboard" className="hidden rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30 sm:inline">Dashboard</Link>
+            <Link href="/login" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Log in</Link>
             <Link href="/signup" className="nexus-cta rounded-xl px-4 py-2.5 font-semibold">Join Nexus ↗</Link>
           </div>
         </nav>
