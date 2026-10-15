@@ -33,7 +33,7 @@ export default function DiscoverPage() {
     (role === "all" || (c.roles ?? []).includes(role)) &&
     [c.username, c.display_name, c.bio ?? ""].some(s => s.toLowerCase().includes(search.toLowerCase().trim()))
   ), [creators, role, search]);
-  return <main className="min-h-screen bg-[#080810] px-5 py-10 text-white">
+  return <main className="min-h-screen bg-[#070711] px-5 py-10 text-white">
     <div className="mx-auto max-w-6xl">
       <nav className="mb-12 flex items-center justify-between gap-3">
         <Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link>
@@ -43,7 +43,7 @@ export default function DiscoverPage() {
       <p className="mt-3 text-gray-400">Meet artists, producers and curators in the Nexus community.</p>
       <div className="mt-8 flex flex-col gap-4 sm:flex-row">
         <input aria-label="Search creators" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search name, username or bio..."
-          className="min-w-0 flex-1 rounded-xl border border-white/15 bg-[#141420] px-4 py-3 outline-none transition focus:border-violet-400" />
+          className="min-w-0 flex-1 rounded-xl border border-white/15 bg-[#171429] px-4 py-3 outline-none transition focus:border-violet-400" />
         <button onClick={() => setRefresh(x => x + 1)} className="rounded-xl border border-white/15 px-4 py-3 transition hover:bg-white/10">Refresh</button>
       </div>
       <div className="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter by role">
@@ -55,7 +55,7 @@ export default function DiscoverPage() {
       {!loading && !error && filtered.length === 0 && <div className="mt-8 rounded-2xl border border-white/10 p-10 text-center text-gray-400">No creators match your search yet. Try another name or role.</div>}
       <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map(c => <Link key={c.id} href={`/u/${encodeURIComponent(c.username)}`}
-          className="group rounded-2xl border border-white/10 bg-[#12121e] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/70 hover:bg-[#1a1830] hover:shadow-xl hover:shadow-violet-900/20 focus-visible:outline-2 focus-visible:outline-violet-400">
+          className="nexus-panel nexus-panel-hover group rounded-2xl p-6 focus-visible:outline-2 focus-visible:outline-violet-400">
           <div className="flex items-center gap-4">
             {c.avatar_url ? (
               // eslint-disable-next-line @next/next/no-img-element

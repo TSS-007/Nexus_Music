@@ -1,26 +1,70 @@
 @import "tailwindcss";
+:root { --background:#070711; --foreground:#f5f3ff; }
+@theme inline { --color-background:var(--background); --color-foreground:var(--foreground); --font-sans:var(--font-geist-sans); --font-mono:var(--font-geist-mono); }
+html { scroll-behavior:smooth; }
+body { background:var(--background); color:var(--foreground); font-family:Arial,Helvetica,sans-serif; }
+::selection { background:#7c3aed; color:white; }
+:focus-visible { outline:2px solid #c4b5fd; outline-offset:3px; }
+.nexus-grid { background-image:linear-gradient(rgba(167,139,250,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,.055) 1px,transparent 1px); background-size:64px 64px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
+.nexus-glow { background:radial-gradient(ellipse at 52% 15%,rgba(109,40,217,.23),transparent 55%),radial-gradient(ellipse at 90% 80%,rgba(76,29,149,.11),transparent 45%); }
+.nexus-panel { background:linear-gradient(145deg,rgba(29,24,51,.88),rgba(13,12,26,.95)); border:1px solid rgba(196,181,253,.12); box-shadow:0 14px 60px rgba(0,0,0,.16); }
+.nexus-panel-hover { transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease; }
+.nexus-panel-hover:hover { transform:translateY(-5px); border-color:rgba(167,139,250,.48); box-shadow:0 24px 65px rgba(76,29,149,.2); }
+.nexus-gradient-text { background:linear-gradient(105deg,#ddd6fe 0%,#a78bfa 45%,#f0abfc 100%); background-clip:text; color:transparent; }
+.nexus-cta { background:linear-gradient(115deg,#7c3aed,#9333ea); box-shadow:0 8px 30px rgba(109,40,217,.2); transition:transform .2s ease,box-shadow .2s ease,filter .2s ease; }
+.nexus-cta:hover { transform:translateY(-2px); filter:brightness(1.12); box-shadow:0 12px 35px rgba(109,40,217,.4); }
+.nexus-reveal { animation:nexus-rise .65s both; }
+.nexus-reveal-delay { animation:nexus-rise .75s .13s both; }
+@keyframes nexus-rise { from {opacity:0;transform:translateY(20px)} to {opacity:1;transform:translateY(0)} }
+@media (prefers-reduced-motion:reduce) { html {scroll-behavior:auto} .nexus-reveal,.nexus-reveal-delay {animation:none} .nexus-panel-hover,.nexus-cta {transition:none} }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Shared interactive feedback across all Nexus pages. */
+a, button, [role="button"], select, input[type="submit"], input[type="button"] {
+  -webkit-tap-highlight-color:transparent;
+  transition-property:color,background-color,border-color,box-shadow,filter,transform,opacity;
+  transition-duration:200ms;
+  transition-timing-function:ease;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (hover:hover) and (pointer:fine) {
+  a:not(.nexus-panel-hover):hover, button:not(:disabled):hover,
+  [role="button"]:hover, input[type="submit"]:not(:disabled):hover,
+  input[type="button"]:not(:disabled):hover {
+    filter:brightness(1.13);
+    transform:translateY(-2px);
+  }
+  nav a:hover, aside a:hover {
+    color:#ddd6fe;
+    text-shadow:0 0 16px rgba(167,139,250,.48);
+  }
+  button:not(:disabled):hover, a.rounded-xl:hover, a.rounded-lg:hover {
+    box-shadow:0 8px 22px rgba(109,40,217,.19);
   }
 }
+a:active, button:not(:disabled):active, [role="button"]:active {
+  transform:translateY(0) scale(.98);
+}
+a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
+  outline:2px solid #c4b5fd;
+  outline-offset:4px;
+  box-shadow:0 0 0 5px rgba(139,92,246,.16);
+}
+@media (prefers-reduced-motion:reduce) {
+  a, button, [role="button"], select, input[type="submit"], input[type="button"] { transition:none !important; }
+  a:hover, button:hover, [role="button"]:hover { transform:none !important; }
+}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* iPadOS Safari can report hover:none even with a connected trackpad.
+   Apply the navigation highlight on actual pointer hover regardless of media query. */
+header nav a:not(.nexus-cta):hover,
+header nav a:not(.nexus-cta):focus-visible {
+  background-color:rgba(139,92,246,.32) !important;
+  color:#ffffff !important;
+  box-shadow:inset 0 0 0 1px rgba(196,181,253,.65),0 0 22px rgba(139,92,246,.3) !important;
+  border-radius:.6rem;
+}
+header nav a:not(.nexus-cta) {
+  transition:background-color .18s ease,color .18s ease,box-shadow .18s ease !important;
+}
+@media (prefers-reduced-motion:reduce) {
+  header nav a:not(.nexus-cta) { transition:none !important; }
 }

@@ -34,8 +34,8 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#080810] px-6 text-white">
-      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#11111d] p-8">
+    <main className="nexus-glow flex min-h-screen items-center justify-center bg-[#070711] px-6 py-12 text-white">
+      <div className="nexus-panel nexus-reveal w-full max-w-md rounded-3xl p-8 sm:p-10">
         <Link href="/" className="text-3xl font-black tracking-widest">
           NEXUS<span className="text-violet-500">.</span>
         </Link>
@@ -61,7 +61,7 @@ export default function LoginPage() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-[#080810] px-4 py-3 outline-none focus:border-violet-500"
+              className="w-full rounded-xl border border-white/10 bg-[#070711] px-4 py-3 outline-none focus:border-violet-500"
               placeholder="you@example.com"
             />
           </div>
@@ -78,7 +78,7 @@ export default function LoginPage() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-[#080810] px-4 py-3 outline-none focus:border-violet-500"
+              className="w-full rounded-xl border border-white/10 bg-[#070711] px-4 py-3 outline-none focus:border-violet-500"
               placeholder="Your password"
             />
           </div>
@@ -86,7 +86,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-violet-600 py-3 font-semibold transition hover:bg-violet-500 disabled:opacity-50"
+            className="nexus-cta w-full rounded-xl py-3 font-semibold disabled:opacity-50"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>
