@@ -26,7 +26,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm sm:gap-x-7">
             <Link href="/music" {...navFeedback("Music")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Music</Link>
             <Link href="/discover" {...navFeedback("Creators")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Creators</Link>
-            <Link href="/highlights" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200">Highlights</Link>
+            <Link href="/highlights" {...navFeedback("Highlights")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200">Highlights</Link>
             <Link href="/dashboard" {...navFeedback("Dashboard")} className="hidden rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30 sm:inline">Dashboard</Link>
             <Link href="/login" {...navFeedback("Log in")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Log in</Link>
             <Link href="/signup" className="nexus-cta rounded-xl px-4 py-2.5 font-semibold">Join Nexus ↗</Link>
