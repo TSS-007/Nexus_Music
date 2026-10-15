@@ -9,6 +9,8 @@ const navigation = [
   { icon: "♫", label: "Discover Music", href: "/music" },
   { icon: "◉", label: "Find Creators", href: "/discover" },
   { icon: "↑", label: "Upload Music", href: "/upload" },
+  { icon: "✦", label: "Highlights", href: "/highlights" },
+  { icon: "◈", label: "My Credits", href: "/credits" },
 
 
 
@@ -65,7 +67,7 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <div className="lg:ml-64">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-6 py-3 lg:hidden"><Link href="/" className="font-black tracking-widest">NEXUS<span className="text-violet-400">.</span></Link><div className="flex flex-wrap gap-3 text-xs"><Link href="/music">Music</Link><Link href="/discover">Creators</Link><Link href="/upload">Upload</Link><Link href="/profile">Profile</Link></div></div>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-6 py-3 lg:hidden"><Link href="/" className="font-black tracking-widest">NEXUS<span className="text-violet-400">.</span></Link><div className="flex flex-wrap gap-3 text-xs"><Link href="/music">Music</Link><Link href="/discover">Creators</Link><Link href="/upload">Upload</Link><Link href="/profile">Profile</Link><Link href="/credits">Credits</Link><Link href="/highlights">Highlights</Link></div></div>
         <AccountInfo />
 
         {/* Header */}
