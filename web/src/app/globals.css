@@ -52,3 +52,19 @@ a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
   a, button, [role="button"], select, input[type="submit"], input[type="button"] { transition:none !important; }
   a:hover, button:hover, [role="button"]:hover { transform:none !important; }
 }
+
+/* iPadOS Safari can report hover:none even with a connected trackpad.
+   Apply the navigation highlight on actual pointer hover regardless of media query. */
+header nav a:not(.nexus-cta):hover,
+header nav a:not(.nexus-cta):focus-visible {
+  background-color:rgba(139,92,246,.32) !important;
+  color:#ffffff !important;
+  box-shadow:inset 0 0 0 1px rgba(196,181,253,.65),0 0 22px rgba(139,92,246,.3) !important;
+  border-radius:.6rem;
+}
+header nav a:not(.nexus-cta) {
+  transition:background-color .18s ease,color .18s ease,box-shadow .18s ease !important;
+}
+@media (prefers-reduced-motion:reduce) {
+  header nav a:not(.nexus-cta) { transition:none !important; }
+}
