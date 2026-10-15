@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
-const availableRoles = ["Artist", "Producer", "Curator"] as const;
+const availableRoles = ["artist", "producer", "curator"] as const;
 type Profile = { username: string; display_name: string; roles: string[] };
 
 export default function ProfilePage() {
@@ -64,8 +64,8 @@ export default function ProfilePage() {
       setError("Username must be 3–30 characters: lowercase letters, numbers, or underscores.");
       return;
     }
-    if (!display_name || display_name.length > 80 || profile.roles.length === 0) {
-      setError("Enter a display name (up to 80 characters) and select at least one role.");
+    if (!display_name || display_name.length > 60 || profile.roles.length === 0) {
+      setError("Enter a display name (up to 60 characters) and select at least one role.");
       return;
     }
     setSaving(true);
@@ -105,7 +105,7 @@ export default function ProfilePage() {
             </div>
             <div>
               <label htmlFor="displayName" className="mb-2 block text-sm font-medium">Display name</label>
-              <input id="displayName" required maxLength={80} value={profile.display_name}
+              <input id="displayName" required maxLength={60} value={profile.display_name}
                 onChange={(e) => setProfile((p) => ({ ...p, display_name: e.target.value }))}
                 className="w-full rounded-xl border border-white/15 bg-[#080810] px-4 py-3 outline-none focus:border-violet-500" />
             </div>
@@ -116,7 +116,7 @@ export default function ProfilePage() {
                   <label key={role} className={`cursor-pointer rounded-xl border px-4 py-3 text-sm ${profile.roles.includes(role) ? "border-violet-500 bg-violet-700/30" : "border-white/15"}`}>
                     <input type="checkbox" checked={profile.roles.includes(role)}
                       onChange={() => toggleRole(role)} className="mr-2 accent-violet-500" />
-                    {role}
+                    {role.charAt(0).toUpperCase() + role.slice(1)}
                   </label>
                 ))}
               </div>
