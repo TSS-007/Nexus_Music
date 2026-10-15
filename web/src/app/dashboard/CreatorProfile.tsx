@@ -8,6 +8,7 @@ type Profile = {
   username: string;
   display_name: string;
   roles: string[];
+  avatar_url?: string | null;
 };
 
 export default function CreatorProfile() {
@@ -27,7 +28,7 @@ export default function CreatorProfile() {
 
       const { data, error } = await supabase
         .from("profiles")
-        .select("username, display_name, roles")
+        .select("username, display_name, roles, avatar_url")
         .eq("id", auth.user.id)
         .maybeSingle();
 
@@ -62,9 +63,14 @@ export default function CreatorProfile() {
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-700 text-2xl font-bold text-white">
-        {profile.display_name.charAt(0).toUpperCase()}
-      </div>
+      {profile.avatar_url ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={profile.avatar_url} alt="Creator avatar" className="h-14 w-14 rounded-full object-cover" />
+      ) : (
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-violet-700 text-2xl font-bold text-white">
+          {profile.display_name.charAt(0).toUpperCase()}
+        </div>
+      )}
 
       <div>
         <h2 className="text-xl font-bold text-white">
