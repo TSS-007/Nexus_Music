@@ -1,5 +1,6 @@
 "use client";
 
+import NexusHover from "@/app/components/NexusHover";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,7 +58,7 @@ export default function UploadPage() {
   }
   return <main className="min-h-screen bg-[#070711] px-5 py-10 text-white">
     <div className="mx-auto max-w-2xl">
-      <nav className="mb-12 flex items-center justify-between"><Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link><Link href="/music" className="text-sm text-violet-300 transition hover:text-white">← Music library</Link></nav>
+      <nav className="mb-12 flex items-center justify-between"><NexusHover><Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link></NexusHover><NexusHover><Link href="/music" className="text-sm text-violet-300 transition hover:text-white">← Music library</Link></NexusHover></nav>
       <h1 className="text-4xl font-black">Upload your sound.</h1>
       <p className="mt-3 text-gray-400">Publish a song or beat to the Nexus community. Only upload music you own or have permission to share. Published audio is publicly accessible.</p>
       {loading ? <p className="mt-10 text-gray-400">Checking your account...</p> : <form onSubmit={e => void publish(e)} className="mt-9 space-y-6 rounded-3xl border border-white/10 bg-[#121020] p-6 sm:p-9">
