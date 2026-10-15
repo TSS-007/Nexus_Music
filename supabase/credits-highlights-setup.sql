@@ -59,7 +59,7 @@ as $$
 declare v_actor uuid := auth.uid(); v_staff public.credit_staff%rowtype; v_used bigint; v_balance integer;
 begin
   if v_actor is null then raise exception 'Sign in required'; end if;
-  select * into v_staff from public.credit_staff where user_id = v_actor;
+  select * into v_staff from public.credit_staff where user_id = v_actor for update;
   if not found then raise exception 'You cannot grant credits'; end if;
   if p_amount is null or p_amount < 1 or p_amount > 100000 then raise exception 'Invalid credit amount'; end if;
   if length(coalesce(p_note,'')) > 300 then raise exception 'Note too long'; end if;
@@ -107,6 +107,7 @@ as $$
 declare v_user uuid := auth.uid(); v_highlight uuid; v_balance integer;
 begin
   if v_user is null then raise exception 'Sign in required'; end if;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_track::text,0));
   if not exists(select 1 from public.tracks where id=p_track and owner_id=v_user) then
     raise exception 'You can only promote your own tracks';
   end if;
