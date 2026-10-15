@@ -9,6 +9,8 @@ type Profile = {
   display_name: string;
   roles: string[];
   avatar_url?: string | null;
+  bio?: string | null;
+  music_links?: Record<string, string> | null;
 };
 
 export default function CreatorProfile() {
@@ -28,7 +30,7 @@ export default function CreatorProfile() {
 
       const { data, error } = await supabase
         .from("profiles")
-        .select("username, display_name, roles, avatar_url")
+        .select("username, display_name, roles, avatar_url, bio, music_links")
         .eq("id", auth.user.id)
         .maybeSingle();
 
@@ -42,10 +44,13 @@ export default function CreatorProfile() {
       setLoading(false);
     }
 
-    loadProfile();
+    void loadProfile();
+    const refresh = () => { void loadProfile(); };
+    window.addEventListener("focus", refresh);
 
     return () => {
       active = false;
+      window.removeEventListener("focus", refresh);
     };
   }, []);
 
@@ -85,6 +90,15 @@ export default function CreatorProfile() {
             )
             .join(", ")}
         </p>
+        {profile.bio && <p className="mt-2 max-w-md whitespace-pre-wrap text-sm text-gray-300">{profile.bio}</p>}
+        {profile.music_links && <div className="mt-2 flex flex-wrap gap-3">
+          {Object.entries(profile.music_links).filter(([, url]) => {
+            try { return ["http:", "https:"].includes(new URL(url).protocol); } catch { return false; }
+          }).map(([name, url]) => (
+            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+              className="text-sm capitalize text-violet-300 underline">{name}</a>
+          ))}
+        </div>}
       </div>
     </div>
   );
