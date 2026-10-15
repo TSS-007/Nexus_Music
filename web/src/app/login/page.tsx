@@ -1,5 +1,6 @@
 "use client";
 
+import NexusHover from "@/app/components/NexusHover";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -36,9 +37,9 @@ export default function LoginPage() {
   return (
     <main className="nexus-glow flex min-h-screen items-center justify-center bg-[#070711] px-6 py-12 text-white">
       <div className="nexus-panel nexus-reveal w-full max-w-md rounded-3xl p-8 sm:p-10">
-        <Link href="/" className="text-3xl font-black tracking-widest">
+        <NexusHover><Link href="/" className="text-3xl font-black tracking-widest">
           NEXUS<span className="text-violet-500">.</span>
-        </Link>
+        </Link></NexusHover>
 
         <h1 className="mt-10 text-3xl font-bold">
           Welcome back.
@@ -100,9 +101,9 @@ export default function LoginPage() {
 
         <p className="mt-8 text-center text-sm text-gray-400">
           New to Nexus?{" "}
-          <Link href="/signup" className="text-violet-400 hover:underline">
+          <NexusHover><Link href="/signup" className="text-violet-400 hover:underline">
             Create an account
-          </Link>
+          </Link></NexusHover>
         </p>
       </div>
     </main>
