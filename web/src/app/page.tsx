@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 const paths = [
   { number:"01", icon:"♫", title:"Artists", description:"Release your sound. Find collaborators and get your music heard.", href:"/music", action:"Explore music" },
@@ -5,6 +7,15 @@ const paths = [
   { number:"03", icon:"◎", title:"Curators", description:"Find new voices and connect with independent talent.", href:"/discover", action:"Discover creators" },
 ];
 export default function Home() {
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
+  const navFeedback = (name: string) => ({
+    onPointerEnter: () => setHoveredNav(name),
+    onPointerLeave: () => setHoveredNav(null),
+    onPointerCancel: () => setHoveredNav(null),
+    onFocus: () => setHoveredNav(name),
+    onBlur: () => setHoveredNav(null),
+    style: hoveredNav === name ? { backgroundColor: "rgba(139,92,246,.42)", color: "#fff", boxShadow: "inset 0 0 0 1px rgba(196,181,253,.7), 0 0 24px rgba(139,92,246,.38)" } : undefined,
+  });
   return <main className="relative min-h-screen overflow-hidden bg-[#070711] text-white">
     <div aria-hidden className="nexus-glow pointer-events-none absolute inset-0" />
     <div aria-hidden className="nexus-grid pointer-events-none absolute inset-x-0 top-0 h-[850px]" />
@@ -13,10 +24,10 @@ export default function Home() {
         <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8" aria-label="Main navigation">
           <Link href="/" className="text-2xl font-black tracking-[.17em]">NEXUS<span className="text-violet-400">.</span></Link>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm sm:gap-x-7">
-            <Link href="/music" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Music</Link>
-            <Link href="/discover" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Creators</Link>
-            <Link href="/dashboard" className="hidden rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30 sm:inline">Dashboard</Link>
-            <Link href="/login" className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Log in</Link>
+            <Link href="/music" {...navFeedback("Music")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Music</Link>
+            <Link href="/discover" {...navFeedback("Creators")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Creators</Link>
+            <Link href="/dashboard" {...navFeedback("Dashboard")} className="hidden rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30 sm:inline">Dashboard</Link>
+            <Link href="/login" {...navFeedback("Log in")} className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-violet-500/20 hover:text-violet-200 hover:ring-1 hover:ring-violet-400/30">Log in</Link>
             <Link href="/signup" className="nexus-cta rounded-xl px-4 py-2.5 font-semibold">Join Nexus ↗</Link>
           </div>
         </nav>
