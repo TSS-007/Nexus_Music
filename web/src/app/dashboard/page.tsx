@@ -5,45 +5,11 @@ import CreatorProfile from "./CreatorProfile";
 const navigation = [
   { icon: "◫", label: "Overview", href: "/dashboard" },
   { icon: "♫", label: "Discover Music", href: "/discover" },
-  { icon: "◈", label: "Campaigns", href: "/campaigns" },
-  { icon: "◇", label: "Beat Marketplace", href: "/marketplace" },
-  { icon: "◎", label: "Credit Wallet", href: "/wallet" },
-  { icon: "✉", label: "Messages", href: "/messages" },
+
+
+
+
   { icon: "♙", label: "My Profile", href: "/profile" },
-];
-
-const stats = [
-  { label: "Available Credits", value: "250", change: "+50 this week" },
-  { label: "Active Campaigns", value: "3", change: "2 awaiting reviews" },
-  { label: "Total Submissions", value: "24", change: "+8 this month" },
-  { label: "Profile Views", value: "1,284", change: "+12.5%" },
-];
-
-const submissions = [
-  {
-    track: "Midnight Drive",
-    artist: "Unknown Artist",
-    type: "Playlist Submission",
-    status: "In Review",
-  },
-  {
-    track: "After Hours",
-    artist: "Nova",
-    type: "Music Feedback",
-    status: "Completed",
-  },
-  {
-    track: "Lost Signals",
-    artist: "Echo",
-    type: "Playlist Submission",
-    status: "Pending",
-  },
-];
-
-const trending = [
-  { title: "No Signal", artist: "Kairo", genre: "Dark Trap" },
-  { title: "Blue Hour", artist: "Luna", genre: "Alternative R&B" },
-  { title: "Pressure", artist: "Vex", genre: "Drill" },
 ];
 
 export default function Dashboard() {
@@ -125,92 +91,23 @@ export default function Dashboard() {
             </Link>
           </section>
 
-          {/* Stats */}
-          <section className="mb-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl border border-white/10 bg-[#11111d] p-6"
-              >
-                <p className="text-sm text-gray-400">{stat.label}</p>
-
-                <h3 className="mt-3 text-3xl font-bold">{stat.value}</h3>
-
-                <p className="mt-3 text-xs text-violet-400">
-                  {stat.change}
-                </p>
-              </div>
-            ))}
+          {/* Real activity replaces the former demonstration numbers. */}
+          <section className="mb-10 grid gap-4 sm:grid-cols-2">
+            <Link href="/discover" className="group rounded-2xl border border-white/10 bg-[#11111d] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-lg hover:shadow-violet-900/20">
+              <p className="text-sm text-gray-400">Community</p>
+              <h3 className="mt-3 text-xl font-bold">Discover creators ↗</h3>
+              <p className="mt-2 text-sm text-gray-400">Search and filter real artists, producers and curators.</p>
+            </Link>
+            <Link href="/profile" className="group rounded-2xl border border-white/10 bg-[#11111d] p-6 transition duration-200 hover:-translate-y-1 hover:border-violet-500/60 hover:shadow-lg hover:shadow-violet-900/20">
+              <p className="text-sm text-gray-400">Your identity</p>
+              <h3 className="mt-3 text-xl font-bold">Edit your profile ↗</h3>
+              <p className="mt-2 text-sm text-gray-400">Update your bio, picture and music links.</p>
+            </Link>
           </section>
-
-          <div className="grid gap-8 xl:grid-cols-3">
-
-            {/* Submissions */}
-            <section className="xl:col-span-2">
-
-              <div className="mb-5 flex items-center justify-between">
-                <h2 className="text-xl font-bold">Recent Submissions</h2>
-                <Link href="/campaigns" className="text-sm text-violet-400">
-                  View All →
-                </Link>
-              </div>
-
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#11111d]">
-
-                {submissions.map((submission, index) => (
-                  <div
-                    key={submission.track}
-                    className={`flex items-center justify-between gap-4 p-5 ${
-                      index !== submissions.length - 1
-                        ? "border-b border-white/10"
-                        : ""
-                    }`}
-                  >
-                    <div>
-                      <h3 className="font-semibold">{submission.track}</h3>
-                      <p className="mt-1 text-sm text-gray-400">
-                        {submission.artist} · {submission.type}
-                      </p>
-                    </div>
-
-                    <span className="rounded-full bg-violet-500/10 px-3 py-1 text-xs text-violet-300">
-                      {submission.status}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Trending */}
-            <section>
-              <h2 className="mb-5 text-xl font-bold">Trending on Nexus</h2>
-
-              <div className="rounded-2xl border border-white/10 bg-[#11111d] p-5">
-
-                {trending.map((track, index) => (
-                  <div
-                    key={track.title}
-                    className="flex items-center gap-4 py-4"
-                  >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/20 text-violet-300">
-                      ♫
-                    </div>
-
-                    <div className="flex-1">
-                      <h3 className="text-sm font-semibold">{track.title}</h3>
-                      <p className="text-xs text-gray-400">
-                        {track.artist} · {track.genre}
-                      </p>
-                    </div>
-
-                    <span className="text-sm text-gray-500">
-                      {index + 1}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
+          <section className="rounded-2xl border border-violet-500/20 bg-[#11111d] p-6">
+            <h2 className="text-lg font-semibold">More Nexus features are coming</h2>
+            <p className="mt-2 text-sm text-gray-400">Campaigns, marketplace listings, credits and messages are not active yet. We won't show made-up submissions, balances or trending tracks.</p>
+          </section>
         </div>
       </div>
     </div>
