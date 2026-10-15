@@ -24,22 +24,6 @@ const features = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#080810] text-white">
-      {/* Navigation */}
-      <div className="flex items-center gap-4">
-  <Link
-    href="/login"
-    className="text-sm font-medium text-gray-300 transition hover:text-white"
-  >
-    Log In
-  </Link>
-
-  <Link
-    href="/signup"
-    className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-violet-500"
-  >
-    Sign Up
-  </Link>
-</div>
       <nav className="flex items-center justify-between border-b border-white/10 px-8 py-6">
         <div className="text-2xl font-black tracking-widest">
           NEXUS<span className="text-violet-500">.</span>
@@ -53,12 +37,9 @@ export default function Home() {
             Explore
           </a>
 
-          <a
-            href="#features"
-            className="rounded-lg bg-violet-600 px-5 py-2 text-sm font-semibold transition hover:bg-violet-500"
-          >
-            Get Started
-          </a>
+          <Link href="/discover" className="hidden text-sm text-gray-300 transition hover:text-white sm:block">Creators</Link>
+          <Link href="/login" className="text-sm text-gray-300 transition hover:text-white">Log In</Link>
+          <Link href="/signup" className="rounded-lg bg-violet-600 px-5 py-2 text-sm font-semibold transition hover:-translate-y-0.5 hover:bg-violet-500">Join Nexus</Link>
         </div>
       </nav>
 
@@ -84,10 +65,10 @@ export default function Home() {
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <a
-            href="#features"
-            className="rounded-xl bg-violet-600 px-8 py-4 font-semibold transition hover:bg-violet-500"
+            href="/discover"
+            className="rounded-xl bg-violet-600 px-8 py-4 font-semibold transition hover:-translate-y-1 hover:bg-violet-500"
           >
-            Explore Nexus →
+            Discover Creators →
           </a>
 
           <a
@@ -117,7 +98,7 @@ export default function Home() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition hover:border-violet-500/50"
+              className="rounded-2xl border border-white/10 bg-white/[0.03] p-8 transition duration-200 hover:-translate-y-1 hover:border-violet-500/50 hover:bg-violet-500/5 hover:shadow-xl hover:shadow-violet-900/10"
             >
               <div className="mb-6 text-4xl text-violet-400">
                 {feature.icon}
