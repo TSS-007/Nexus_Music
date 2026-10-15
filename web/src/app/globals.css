@@ -17,3 +17,38 @@ body { background:var(--background); color:var(--foreground); font-family:Arial,
 .nexus-reveal-delay { animation:nexus-rise .75s .13s both; }
 @keyframes nexus-rise { from {opacity:0;transform:translateY(20px)} to {opacity:1;transform:translateY(0)} }
 @media (prefers-reduced-motion:reduce) { html {scroll-behavior:auto} .nexus-reveal,.nexus-reveal-delay {animation:none} .nexus-panel-hover,.nexus-cta {transition:none} }
+
+/* Shared interactive feedback across all Nexus pages. */
+a, button, [role="button"], select, input[type="submit"], input[type="button"] {
+  -webkit-tap-highlight-color:transparent;
+  transition-property:color,background-color,border-color,box-shadow,filter,transform,opacity;
+  transition-duration:200ms;
+  transition-timing-function:ease;
+}
+@media (hover:hover) and (pointer:fine) {
+  a:not(.nexus-panel-hover):hover, button:not(:disabled):hover,
+  [role="button"]:hover, input[type="submit"]:not(:disabled):hover,
+  input[type="button"]:not(:disabled):hover {
+    filter:brightness(1.13);
+    transform:translateY(-2px);
+  }
+  nav a:hover, aside a:hover {
+    color:#ddd6fe;
+    text-shadow:0 0 16px rgba(167,139,250,.48);
+  }
+  button:not(:disabled):hover, a.rounded-xl:hover, a.rounded-lg:hover {
+    box-shadow:0 8px 22px rgba(109,40,217,.19);
+  }
+}
+a:active, button:not(:disabled):active, [role="button"]:active {
+  transform:translateY(0) scale(.98);
+}
+a:focus-visible, button:focus-visible, [role="button"]:focus-visible {
+  outline:2px solid #c4b5fd;
+  outline-offset:4px;
+  box-shadow:0 0 0 5px rgba(139,92,246,.16);
+}
+@media (prefers-reduced-motion:reduce) {
+  a, button, [role="button"], select, input[type="submit"], input[type="button"] { transition:none !important; }
+  a:hover, button:hover, [role="button"]:hover { transform:none !important; }
+}
