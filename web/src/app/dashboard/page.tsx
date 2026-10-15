@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import AccountInfo from "./AccountInfo";
 import CreatorProfile from "./CreatorProfile";
@@ -15,6 +17,7 @@ const navigation = [
 ];
 
 export default function Dashboard() {
+  const [hoveredSidebar, setHoveredSidebar] = useState<string | null>(null);
   return (
     <div className="min-h-screen bg-[#070711] text-white">
 
@@ -30,6 +33,16 @@ export default function Dashboard() {
             <Link
               key={item.label}
               href={item.href}
+              onPointerEnter={() => setHoveredSidebar(item.href)}
+              onPointerLeave={() => setHoveredSidebar(null)}
+              onPointerCancel={() => setHoveredSidebar(null)}
+              onFocus={() => setHoveredSidebar(item.href)}
+              onBlur={() => setHoveredSidebar(null)}
+              style={hoveredSidebar === item.href ? {
+                backgroundColor: "rgba(139,92,246,.42)",
+                color: "#fff",
+                boxShadow: "inset 0 0 0 1px rgba(196,181,253,.65), 0 0 22px rgba(139,92,246,.27)",
+              } : undefined}
               className={`flex items-center gap-4 rounded-xl px-4 py-3 text-sm transition ${
                 item.label === "Overview"
                   ? "bg-violet-600/20 text-violet-300"
