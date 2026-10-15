@@ -95,13 +95,7 @@ export default function Dashboard() {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="hidden text-sm text-gray-400 sm:block">
-              <CreatorProfile />
-            </span>
-
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 font-bold">
-              N
-            </div>
+            <CreatorProfile />
           </div>
         </header>
 
