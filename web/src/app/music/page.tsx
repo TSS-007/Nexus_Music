@@ -65,7 +65,7 @@ export default function MusicLibrary() {
     const index = filtered.findIndex(t => t.id === selected.id);
     choose(filtered[(index + direction + filtered.length) % filtered.length]);
   }
-  return <main className="min-h-screen bg-[#080810] px-5 pb-36 pt-8 text-white">
+  return <main className="min-h-screen bg-[#070711] px-5 pb-36 pt-8 text-white">
     <div className="mx-auto max-w-6xl">
       <nav className="mb-12 flex flex-wrap items-center justify-between gap-4">
         <Link href="/" className="text-2xl font-black tracking-widest">NEXUS<span className="text-violet-500">.</span></Link>
@@ -82,8 +82,8 @@ export default function MusicLibrary() {
       </div>
       <div className="mt-9 flex flex-col gap-3 sm:flex-row">
         <input aria-label="Search music" placeholder="Search tracks, artists or genres..." value={search} onChange={e => setSearch(e.target.value)}
-          className="min-w-0 flex-1 rounded-xl border border-white/15 bg-[#141420] px-5 py-3 outline-none transition focus:border-violet-400" />
-        <select aria-label="Genre" value={genre} onChange={e => setGenre(e.target.value)} className="rounded-xl border border-white/15 bg-[#141420] px-4 py-3">{genres.map(g => <option key={g}>{g}</option>)}</select>
+          className="min-w-0 flex-1 rounded-xl border border-white/15 bg-[#171429] px-5 py-3 outline-none transition focus:border-violet-400" />
+        <select aria-label="Genre" value={genre} onChange={e => setGenre(e.target.value)} className="rounded-xl border border-white/15 bg-[#171429] px-4 py-3">{genres.map(g => <option key={g}>{g}</option>)}</select>
         <button onClick={() => setRefresh(x => x + 1)} className="rounded-xl border border-white/15 px-4 py-3 transition hover:bg-white/10">Refresh</button>
       </div>
       <div className="mt-5 flex gap-2" role="group" aria-label="Track type">
@@ -92,9 +92,9 @@ export default function MusicLibrary() {
       </div>
       <p aria-live="polite" className="mt-7 text-sm text-gray-400">{loading ? "Loading tracks..." : `${filtered.length} track${filtered.length === 1 ? "" : "s"}`}</p>
       {error && <p role="alert" className="mt-4 rounded-xl border border-red-500/40 p-4 text-red-300">{error}</p>}
-      {!loading && !error && filtered.length === 0 && <div className="mt-6 rounded-2xl border border-white/10 bg-[#12121e] p-10 text-center"><p className="text-gray-300">No tracks match yet.</p><Link href="/upload" className="mt-4 inline-block text-violet-300 underline">Be the first to upload →</Link></div>}
+      {!loading && !error && filtered.length === 0 && <div className="mt-6 rounded-2xl border border-white/10 bg-[#121020] p-10 text-center"><p className="text-gray-300">No tracks match yet.</p><Link href="/upload" className="mt-4 inline-block text-violet-300 underline">Be the first to upload →</Link></div>}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map(t => <article key={t.id} className={`group rounded-2xl border bg-[#12121e] p-5 transition duration-200 hover:-translate-y-1 hover:bg-[#1c1930] hover:shadow-xl hover:shadow-violet-900/20 ${selected?.id === t.id ? "border-violet-500" : "border-white/10 hover:border-violet-500/50"}`}>
+        {filtered.map(t => <article key={t.id} className={`group rounded-2xl border bg-[#121020] p-5 transition duration-200 hover:-translate-y-1 hover:bg-[#1c1930] hover:shadow-xl hover:shadow-violet-900/20 ${selected?.id === t.id ? "border-violet-500" : "border-white/10 hover:border-violet-500/50"}`}>
           <div className="flex items-start gap-4">
             <button aria-label={selected?.id === t.id && playing ? "Pause " + t.title : "Play " + t.title} onClick={() => choose(t)}
               className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-700 to-fuchsia-950 text-2xl shadow-lg transition group-hover:scale-105 hover:brightness-125">{selected?.id === t.id && playing ? "Ⅱ" : "▶"}</button>
