@@ -111,11 +111,22 @@ export default function ProfilePage() {
       window.location.replace("/login");
       return;
     }
-    const { error: saveError } = await supabase.from("profiles")
-      .update({ username, display_name, roles: profile.roles, bio: profile.bio.trim(), avatar_url: profile.avatar_url || null, music_links })
-      .eq("id", userId)
-      .select("id")
-      .single();
+    const { error: saveError } = await supabase
+  .from("profiles")
+  .upsert(
+    {
+      id: userId,
+      username,
+      display_name,
+      roles: profile.roles,
+      bio: profile.bio,
+      avatar_url: profile.avatar_url,
+      music_links: profile.music_links,
+    },
+    { onConflict: "id" }
+  )
+  .select("id")
+  .single();
     setSaving(false);
     if (saveError) setError(saveError.message);
     else {
