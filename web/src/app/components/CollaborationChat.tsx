@@ -81,12 +81,8 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
   // Realtime wakes the existing permission-checked refresh; the five-second
   // polling loop above remains a safety net for dropped or blocked sockets.
   useEffect(() => {
-    if (!authorized) {
-      setRealtimeStatus("fallback");
-      return;
-    }
+    if (!authorized) return;
     let active = true;
-    setRealtimeStatus("connecting");
     const channel = supabase
       .channel("collaboration-messages-" + requestId + "-" + crypto.randomUUID())
       .on("postgres_changes", {
@@ -177,8 +173,8 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
         </div>
       </div>
       <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300">
-        <span aria-hidden="true" className={"size-1.5 rounded-full " + (realtimeStatus === "live" ? "bg-emerald-400" : "bg-amber-400")} />
-        {realtimeStatus === "live" ? "Live updates" : realtimeStatus === "connecting" ? "Connecting live updates…" : "Auto-refresh every 5 seconds"}
+        <span aria-hidden="true" className={"size-1.5 rounded-full " + (authorized && realtimeStatus === "live" ? "bg-emerald-400" : "bg-amber-400")} />
+        {authorized && realtimeStatus === "live" ? "Live updates" : authorized && realtimeStatus === "connecting" ? "Connecting live updates…" : "Auto-refresh every 5 seconds"}
       </span>
     </header>
     {readError && <p role="alert" className="mt-4 text-sm text-red-300">Could not load chat: {readError} <button type="button" onClick={() => void refresh()} className="underline">Retry</button></p>}
