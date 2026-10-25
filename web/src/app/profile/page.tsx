@@ -1,5 +1,6 @@
 "use client";
 
+import NexusHover from "@/app/components/NexusHover";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -110,11 +111,22 @@ export default function ProfilePage() {
       window.location.replace("/login");
       return;
     }
-    const { error: saveError } = await supabase.from("profiles")
-      .update({ username, display_name, roles: profile.roles, bio: profile.bio.trim(), avatar_url: profile.avatar_url || null, music_links })
-      .eq("id", userId)
-      .select("id")
-      .single();
+    const { error: saveError } = await supabase
+  .from("profiles")
+  .upsert(
+    {
+      id: userId,
+      username,
+      display_name,
+      roles: profile.roles,
+      bio: profile.bio,
+      avatar_url: profile.avatar_url,
+      music_links: profile.music_links,
+    },
+    { onConflict: "id" }
+  )
+  .select("id")
+  .single();
     setSaving(false);
     if (saveError) setError(saveError.message);
     else {
@@ -126,7 +138,7 @@ export default function ProfilePage() {
   return (
     <main className="min-h-screen bg-[#080810] px-5 py-10 text-white">
       <div className="mx-auto max-w-2xl">
-        <Link href="/dashboard" className="text-sm text-violet-300 hover:text-violet-200">← Back to dashboard</Link>
+        <NexusHover><Link href="/dashboard" className="text-sm text-violet-300 hover:text-violet-200">← Back to dashboard</Link></NexusHover>
         <h1 className="mt-8 text-3xl font-bold">My Profile</h1>
         <p className="mt-2 text-gray-400">Manage how other creators see you on Nexus.</p>
         {loading ? <p className="mt-8 text-gray-400">Loading your profile...</p> : (
