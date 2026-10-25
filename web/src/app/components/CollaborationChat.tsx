@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { supabase } from "@/lib/supabase";
+import ChatAudioPreview from "@/app/components/ChatAudioPreview";
 
 type Message = {
   id: string; sender_id: string; body: string; created_at: string;
@@ -129,28 +130,100 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
     finally { setDownloading(""); }
   }
 
-  return <section className="mt-6 border-t border-white/10 pt-6" aria-label={`Conversation with ${otherName}`}>
-    <h3 className="text-lg font-bold">Chat with {otherName}</h3>
-    <p className="mt-1 text-sm text-gray-400">Private messages and files for this collaboration. Updates every 5 seconds.</p>
-    {readError && <p role="alert" className="mt-4 text-red-300">Could not load chat: {readError} <button type="button" onClick={() => void refresh()} className="underline">Retry</button></p>}
-    <div ref={scroller} className="mt-4 max-h-96 space-y-3 overflow-y-auto rounded-xl border border-white/10 bg-black/20 p-4" aria-label="Messages" tabIndex={0}>
-      {loading ? <p className="text-gray-400">Loading conversation…</p> : authorized && messages.length === 0 ? <p className="text-gray-400">Start the conversation with a message or a file.</p> : null}
-      {more && <button type="button" onClick={() => setLimit(value => value + 50)} className="text-sm text-violet-300 underline">Load older messages</button>}
-      {messages.map(message => <article key={message.id} className={`max-w-[95%] rounded-xl border p-3 sm:max-w-[85%] ${message.sender_id === userId ? "ml-auto border-violet-400/20 bg-violet-500/15" : "border-white/10 bg-white/5"}`}>
-        <div className="mb-2 flex flex-wrap justify-between gap-3 text-xs text-gray-400"><strong className="text-violet-200">{message.sender_id === userId ? "You" : otherName}</strong><time dateTime={message.created_at}>{new Date(message.created_at).toLocaleString()}</time></div>
-        {message.body && <p className="whitespace-pre-wrap break-words text-sm text-gray-100">{message.body}</p>}
-        {message.file_path && <button type="button" disabled={!!downloading} onClick={() => void download(message)} className="mt-3 block max-w-full break-all rounded-lg border border-violet-400/30 px-3 py-2 text-left text-sm text-violet-200 hover:bg-violet-500/15 disabled:opacity-50">{downloading === message.id ? "Downloading…" : `Download ${message.file_name}`} <span className="text-gray-400">({fileSize(message.file_size ?? 0)})</span></button>}
-      </article>)}
+  return <section className="mt-6 border-t border-white/10 pt-6" aria-label={"Conversation with " + otherName}>
+    <header className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-3">
+        <div aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-full border border-violet-300/30 bg-violet-500/20 text-lg font-bold text-violet-100">
+          {otherName.slice(0, 1).toUpperCase()}
+        </div>
+        <div className="min-w-0">
+          <h3 className="truncate text-lg font-bold">Chat with {otherName}</h3>
+          <p className="text-xs text-gray-400">Your private collaboration conversation</p>
+        </div>
+      </div>
+      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300">
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
+        Refreshes every 5 seconds
+      </span>
+    </header>
+    {readError && <p role="alert" className="mt-4 text-sm text-red-300">Could not load chat: {readError} <button type="button" onClick={() => void refresh()} className="underline">Retry</button></p>}
+    <div
+      ref={scroller}
+      className="mt-4 max-h-[32rem] min-h-48 space-y-4 overflow-y-auto rounded-2xl border border-white/10 bg-[#090814]/80 p-3 sm:p-5"
+      aria-label="Messages"
+      tabIndex={0}
+    >
+      {loading ? <p className="text-sm text-gray-400">Loading conversation…</p> : authorized && messages.length === 0 ? <div className="py-6 text-center">
+        <p className="font-semibold text-gray-200">Start the conversation</p>
+        <p className="mt-1 text-sm text-gray-400">Send a message or share your first demo.</p>
+      </div> : null}
+      {more && <div className="text-center"><button type="button" onClick={() => setLimit(value => value + 50)} className="rounded-lg border border-white/15 px-3 py-1.5 text-sm text-violet-200 hover:bg-white/10">Load older messages</button></div>}
+      {messages.map((message, index) => {
+        const mine = message.sender_id === userId;
+        const day = new Date(message.created_at).toDateString();
+        const previousDay = index > 0 ? new Date(messages[index - 1].created_at).toDateString() : "";
+        return <div key={message.id}>
+          {day !== previousDay && <div className="mb-4 flex items-center gap-3 text-xs text-gray-500">
+            <div className="h-px flex-1 bg-white/10" />
+            <time dateTime={message.created_at}>{new Date(message.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</time>
+            <div className="h-px flex-1 bg-white/10" />
+          </div>}
+          <div className={mine ? "flex justify-end" : "flex justify-start"}>
+            <article className={"min-w-0 max-w-[95%] rounded-2xl border px-4 py-3 sm:max-w-[82%] " + (mine
+              ? "rounded-br-sm border-violet-400/25 bg-violet-500/20"
+              : "rounded-bl-sm border-white/10 bg-[#211d34]")}>
+              <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-xs">
+                <strong className={mine ? "text-violet-200" : "text-gray-100"}>{mine ? "You" : otherName}</strong>
+                <time dateTime={message.created_at} title={new Date(message.created_at).toLocaleString()} className="text-gray-400">
+                  {new Date(message.created_at).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" })}
+                </time>
+              </div>
+              {message.body && <p className="whitespace-pre-wrap break-words text-sm leading-relaxed text-gray-100">{message.body}</p>}
+              {message.file_path && message.file_name && <div className="mt-3 min-w-0 rounded-xl border border-white/10 bg-black/25 p-3">
+                <div className="flex min-w-0 items-center gap-2">
+                  <span aria-hidden="true" className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-violet-400/15 text-lg text-violet-200">♫</span>
+                  <div className="min-w-0">
+                    <p className="break-all text-sm font-semibold text-gray-100">{message.file_name}</p>
+                    <p className="text-xs text-gray-400">{fileSize(message.file_size ?? 0)}</p>
+                  </div>
+                </div>
+                {/[.](wav|mp3)$/i.test(message.file_name) && <ChatAudioPreview filePath={message.file_path} fileName={message.file_name} />}
+                <button
+                  type="button"
+                  disabled={!!downloading}
+                  onClick={() => void download(message)}
+                  className="mt-3 rounded-lg border border-white/15 px-3 py-2 text-left text-sm text-violet-200 hover:bg-violet-500/15 disabled:opacity-50"
+                >{downloading === message.id ? "Downloading…" : "↓ Download file"}</button>
+              </div>}
+            </article>
+          </div>
+        </div>;
+      })}
     </div>
-    <form onSubmit={send} className="mt-4 space-y-3">
-      <label className="block text-sm text-gray-300">Message<textarea value={body} onChange={event => setBody(event.target.value)} maxLength={4000} disabled={busy || retry || !authorized} rows={3} placeholder="Share an idea, send a demo, or plan your next session…" className="mt-2 block w-full rounded-xl border border-white/15 bg-[#171429] p-3 text-white disabled:opacity-50" /></label>
-      <label className="block text-sm text-gray-300">Attach a file <span className="text-gray-400">(up to 50 MB)</span><input ref={input} type="file" disabled={busy || retry || !authorized} className="mt-2 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-violet-500/20 file:px-3 file:py-2 file:text-violet-200" onChange={event => {
-        const selected = event.target.files?.[0] ?? null; setError("");
-        if (selected && (selected.size === 0 || selected.size > MAX_FILE || selected.name.length > 255)) { setError("Choose a non-empty file up to 50 MB with a filename under 256 characters."); event.target.value = ""; setFile(null); return; }
-        setFile(selected);
-      }} /></label>
-      {file && <p className="break-all text-sm text-violet-200">{file.name} · {fileSize(file.size)} {!busy && !retry && <button type="button" className="ml-3 underline" onClick={() => { setFile(null); if (input.current) input.current.value = ""; }}>Remove</button>}</p>}
-      <div className="flex flex-wrap items-center justify-between gap-3"><span className="text-xs text-gray-400">Audio, stems, ZIPs, images, or documents. One file per message.</span><button type="submit" disabled={busy || !authorized || (!retry && !body.trim() && !file)} className="nexus-cta rounded-xl px-5 py-3 font-semibold disabled:opacity-40">{busy ? "Sending…" : retry ? "Retry send" : "Send message"}</button></div>
+    <form onSubmit={send} className="mt-4 space-y-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4">
+      <label className="block text-sm font-medium text-gray-200">Message
+        <textarea
+          value={body}
+          onChange={event => setBody(event.target.value)}
+          maxLength={4000}
+          disabled={busy || retry || !authorized}
+          rows={2}
+          placeholder="Share an idea, send a demo, or plan your next session…"
+          className="mt-2 block w-full resize-y rounded-xl border border-white/15 bg-[#171429] p-3 text-white placeholder:text-gray-500 disabled:opacity-50"
+        />
+      </label>
+      <label className="block text-sm text-gray-300">Attach a file <span className="text-gray-400">(up to 50 MB)</span>
+        <input ref={input} type="file" disabled={busy || retry || !authorized} className="mt-2 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-violet-500/20 file:px-3 file:py-2 file:text-violet-200" onChange={event => {
+          const selected = event.target.files?.[0] ?? null; setError("");
+          if (selected && (selected.size === 0 || selected.size > MAX_FILE || selected.name.length > 255)) { setError("Choose a non-empty file up to 50 MB with a filename under 256 characters."); event.target.value = ""; setFile(null); return; }
+          setFile(selected);
+        }} />
+      </label>
+      {file && <p className="break-all rounded-lg bg-violet-500/10 px-3 py-2 text-sm text-violet-200">{file.name} · {fileSize(file.size)} {!busy && !retry && <button type="button" className="ml-3 underline" onClick={() => { setFile(null); if (input.current) input.current.value = ""; }}>Remove</button>}</p>}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <span className="text-xs text-gray-400">Text, WAV/MP3, stems, ZIPs, images, or documents</span>
+        <button type="submit" disabled={busy || !authorized || (!retry && !body.trim() && !file)} className="nexus-cta rounded-xl px-5 py-3 font-semibold disabled:opacity-40">{busy ? "Sending…" : retry ? "Retry send" : "Send message"}</button>
+      </div>
       {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
       <p role="status" className="text-sm text-violet-200">{notice}</p>
     </form>
