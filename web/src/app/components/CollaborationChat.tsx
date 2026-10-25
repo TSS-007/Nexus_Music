@@ -30,6 +30,7 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
   const [more, setMore] = useState(false);
   const [downloading, setDownloading] = useState("");
   const [authorized, setAuthorized] = useState(false);
+  const [realtimeStatus, setRealtimeStatus] = useState<"connecting" | "live" | "fallback">("connecting");
   const pending = useRef<Pending | null>(null);
   const sending = useRef(false);
   const input = useRef<HTMLInputElement>(null);
@@ -76,6 +77,40 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
     void poll();
     return () => { stopped = true; clearTimeout(timer); invalidate(); };
   }, [refresh, invalidate]);
+
+  // Realtime wakes the existing permission-checked refresh; the five-second
+  // polling loop above remains a safety net for dropped or blocked sockets.
+  useEffect(() => {
+    if (!authorized) {
+      setRealtimeStatus("fallback");
+      return;
+    }
+    let active = true;
+    setRealtimeStatus("connecting");
+    const channel = supabase
+      .channel("collaboration-messages-" + requestId + "-" + crypto.randomUUID())
+      .on("postgres_changes", {
+        event: "INSERT",
+        schema: "public",
+        table: "collaboration_messages",
+        filter: "request_id=eq." + requestId,
+      }, () => { if (active) void refresh(); })
+      .subscribe(status => {
+        if (!active) return;
+        if (status === "SUBSCRIBED") {
+          setRealtimeStatus("live");
+          void refresh();
+        } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+          setRealtimeStatus("fallback");
+        } else {
+          setRealtimeStatus("connecting");
+        }
+      });
+    return () => {
+      active = false;
+      void supabase.removeChannel(channel);
+    };
+  }, [authorized, requestId, refresh]);
 
   useEffect(() => {
     const latest = messages.at(-1)?.id ?? "";
@@ -142,8 +177,8 @@ export default function CollaborationChat({ requestId, userId, otherName }: { re
         </div>
       </div>
       <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-300">
-        <span aria-hidden="true" className="size-1.5 rounded-full bg-emerald-400" />
-        Refreshes every 5 seconds
+        <span aria-hidden="true" className={"size-1.5 rounded-full " + (realtimeStatus === "live" ? "bg-emerald-400" : "bg-amber-400")} />
+        {realtimeStatus === "live" ? "Live updates" : realtimeStatus === "connecting" ? "Connecting live updates…" : "Auto-refresh every 5 seconds"}
       </span>
     </header>
     {readError && <p role="alert" className="mt-4 text-sm text-red-300">Could not load chat: {readError} <button type="button" onClick={() => void refresh()} className="underline">Retry</button></p>}
